@@ -1,4 +1,4 @@
-import { checkCredentials } from '../../helpers/session'
+// import { checkCredentials } from '../../helpers/session'
 import { getUser } from './selectors'
 import * as types from './types'
 
@@ -17,7 +17,6 @@ export const logInError = payload => ({
 })
 
 export const logIn = params => (dispatch, getState) => {
-  const state = getState()
   dispatch(logInStart(params))
   fetch('http://5ae32aeb34b5970014d2edd6.mockapi.io/validate-ok', {
     method: 'POST',
@@ -28,7 +27,9 @@ export const logIn = params => (dispatch, getState) => {
   })
     .then(response => {
       if (response.status !== '200') {
-        throw new Error(response.statusText)
+        throw new Error(
+          `Извините, произошла ошибка ${response.status} ${response.statusText}`
+        )
       }
       response.json()
     })
