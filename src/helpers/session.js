@@ -1,6 +1,6 @@
 export function checkCredentials(params) {
   if (
-    params.username.toLowerCase() !== 'admin' ||
+    params.email.toLowerCase() !== 'admin@gmail.com' ||
     params.password !== '12345'
   ) {
     return false

@@ -3,42 +3,30 @@ import * as types from './types'
 const initialState = {
   isFetching: false,
   error: null,
-  id: null,
+  user: null,
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.LOG_IN_START:
+    case types.PROFILE_START:
       return {
         ...state,
         isFetching: true,
         error: null,
       }
-    case types.LOG_IN_SUCCESS:
+    case types.PROFILE_SUCCESS:
       return {
         ...state,
         isFetching: false,
         error: null,
-        id: action.payload.userId,
+        user: action.payload,
       }
-    case types.LOG_IN_ERROR:
+    case types.PROFILE_ERROR:
       return {
         ...state,
-        error: action.payload.message,
         isFetching: false,
+        error: action.payload,
       }
-    case types.SERVER_404:
-      return {
-        ...state,
-        error: 'К сожалению, сервер не доступен',
-      }
-    // case types.LOG_OUT:
-    //   return {
-    //     ...state,
-    //     user: null,
-    //     errorMsg: '',
-    //   }
-
     default:
       return state
   }

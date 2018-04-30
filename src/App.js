@@ -17,13 +17,13 @@ import { Component } from 'react'
 
 const mapStateToProps = state => {
   return {
-    user: state.session.user,
+    id: state.session.id,
   }
 }
 
 class App extends Component {
   static propTypes = {
-    user: propTypes.string,
+    id: propTypes.string,
   }
 
   render() {
@@ -36,10 +36,7 @@ class App extends Component {
               <LinkBtn to="/profile" label={'Профиль'} />
               <LinkBtn to="/news" label={'Новости'} />
               <LinkBtn to="/abra-kadabra" label={'404'} />
-              <LinkBtn
-                to="/login"
-                label={this.props.user ? 'Выйти' : 'Войти'}
-              />
+              <LinkBtn to="/login" label={this.props.id ? 'Выйти' : 'Войти'} />
             </div>
           </header>
 

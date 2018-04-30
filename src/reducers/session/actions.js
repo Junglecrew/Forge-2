@@ -1,5 +1,5 @@
-// import { checkCredentials } from '../../helpers/session'
-import { getUser } from './selectors'
+import { checkCredentials } from '../../helpers/session'
+// import { getUser } from './selectors'
 import * as types from './types'
 
 export const logInStart = () => ({
@@ -16,48 +16,42 @@ export const logInError = payload => ({
   payload,
 })
 
+export const server404 = payload => ({
+  type: types.SERVER_404,
+  payload,
+})
+
 export const logIn = params => (dispatch, getState) => {
   dispatch(logInStart(params))
-  fetch('http://5ae32aeb34b5970014d2edd6.mockapi.io/validate-ok', {
-    method: 'POST',
-    body: {
-      username: `${params.username}`,
-      password: `${params.password}`,
-    },
-  })
-    .then(response => {
-      if (response.status !== '200') {
-        throw new Error(
-          `Извините, произошла ошибка ${response.status} ${response.statusText}`
-        )
-      }
-      response.json()
+  if (!checkCredentials(params)) {
+    fetch('http://5ae32aeb34b5970014d2edd6.mockapi.io/validate-err', {
+      method: 'POST',
     })
-    .then(data => dispatch(logInSuccess(data)))
-    .catch(error => dispatch(logInError(error)))
+      .then(response => response.json())
+      .then(data => dispatch(logInError(data)))
+  } else {
+    fetch('http://5ae32aeb34b5970014d2edd6.mockapi.io/validate-ok', {
+      method: 'POST',
+      body: {
+        email: `${params.email}`,
+        password: `${params.password}`,
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        data.status === 'ok'
+          ? dispatch(logInSuccess(data))
+          : dispatch(logInError(data))
+        // .catch(error => dispatch(logInError(error)))
+      })
+  }
 }
 
-// export function logIn(params, cb) {
-//   return dispatch => {
-//     if (checkCredentials(params)) {
-//       dispatch({
-//         type: types.LOG_IN,
-//         payload: {
-//           name: params.username,
-//         },
-//       })
-//       cb()
-//     } else {
-//       dispatch({
-//         type: types.LOG_IN_FAILURE,
-//         payload: {
-//           errorMsg: 'Имя пользователя или пароль введены не верно',
-//         },
-//         error: true, // https://github.com/redux-utilities/flux-standard-action
-//       })
-//     }
-//   }
-// }
+export const serverError = () => (dispatch, getState) => {
+  fetch('http://5ae32aeb34b5970014d2edd6.mockapi.io/wrongURL', {
+    method: 'POST',
+  }).then(response => response.json().then(data => dispatch(server404(data))))
+}
 
 export function logOut() {
   return {
