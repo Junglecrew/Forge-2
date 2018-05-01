@@ -8,7 +8,7 @@ import Button from 'material-ui/Button'
 import IconButton from 'material-ui/IconButton'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
-import Preloader from './Preloader';
+import Preloader from './Preloader'
 
 const styles = theme => ({
   container: {
@@ -30,6 +30,21 @@ class Login extends React.Component {
     showPassword: false,
     disabled: true,
     inputStyleError: true,
+  }
+
+  static getDerivedStateFromProps(nextProps, prevProps) {
+    if (nextProps.error === prevProps.error) {
+      return null
+    }
+    return {
+      password: '',
+    }
+  }
+
+  componentDidMount() {
+    const { history, clearErrorMsg } = this.props
+    console.log(history.location.pathname)
+    if (history.location.pathname === '/login') return clearErrorMsg()
   }
 
   handleChange = e => {
@@ -129,8 +144,10 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
+  history: PropTypes.object,
   classes: PropTypes.object.isRequired,
   logIn: PropTypes.func.isRequired,
+  clearErrorMsg: PropTypes.func.isRequired,
   isAuth: PropTypes.number,
   error: PropTypes.string,
   isFetching: PropTypes.bool.isRequired,

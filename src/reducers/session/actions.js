@@ -17,18 +17,17 @@ export const logInError = payload => ({
   payload,
 })
 
-export const server404 = payload => ({
-  type: types.SERVER_404,
-  payload,
+export const clearErrorMsg = () => ({
+  type: types.ERROR_MSG_CLEAR,
 })
 
 export const errorHandler = data => {
   console.log(data)
   var msg
+  console.log(data.message)
   if (data.message === 'wrong_email_or_password') {
     msg = 'Неправильный логин или пароль'
-  }
-  if (data.status === '503') {
+  } else if (data.status === '503') {
     msg = 'Сервер не доступен'
   } else {
     msg = data.message

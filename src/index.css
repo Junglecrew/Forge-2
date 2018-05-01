@@ -14,13 +14,15 @@ table {
 }
 
 td {
-  display: inline-block;
-  padding: 5px;
+  border-right: 1px solid #d1d1d1;
 }
 
 tr {
-  vertical-align: top;
   border: 1px solid #d1d1d1;
+}
+
+ul {
+  padding: 0;
 }
 
 li {
@@ -145,22 +147,43 @@ li {
 .profile {
   min-width: 750px;
   margin: 20px;
+  height: 200px;
+}
+
+.profile__city {
+  margin-left: 15px;
 }
 
 .profile__item-title {
-  width: 30%;
+  text-align: center;
   font-family: 'Yandex Sans Display Bold';
 }
 
-.profile__socials {
-  margin: 5px;
+.profile__socials-list {
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.profile__languages-list {
+  margin-left: 15px;
+}
+
+.profile__languages-list li {
+  margin-top: 5px;
+}
+
+.profile__socials-item {
+  margin: 5px 0px 5px 15px;
 }
 
 .profile__socials-link {
+  cursor: pointer;
   text-decoration: none;
   color: #343E9D;
-  margin-left: 15px;
+
 }
+
 
 .profile__socials-link:hover {
   color: red;

@@ -16,8 +16,8 @@ export const newsError = payload => ({
 
 export const getNewsFromServer = () => (dispatch, getState) => {
   dispatch(newsStart())
-  fetch('http://5ae32aeb34b5970014d2edd6.mockapi.io/news')
+  fetch('https://mysterious-reef-29460.herokuapp.com/api/v1/news')
     .then(response => response.json())
-    .then(data => dispatch(newsSuccess(data)))
+    .then(data => dispatch(newsSuccess(data.data)))
     .catch(error => dispatch(newsError(error)))
 }

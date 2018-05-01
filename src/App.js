@@ -10,6 +10,7 @@ import Home from './components/Home'
 import ProfileContainer from './containers/ProfileContainer'
 import NewsContainer from './containers/NewsContainer'
 import NotFound from './components/NotFound'
+import { logOut } from './reducers/session/actions'
 import './App.css'
 import './assets/fonts/fonts.css'
 import CssBaseline from 'material-ui/CssBaseline'
@@ -25,8 +26,8 @@ const mapStateToProps = state => {
 class App extends Component {
   static propTypes = {
     id: propTypes.number,
+    logOut: propTypes.func,
   }
-
   render() {
     return (
       <CssBaseline>
@@ -37,7 +38,20 @@ class App extends Component {
               <LinkBtn to="/profile" label={'Профиль'} />
               <LinkBtn to="/news" label={'Новости'} />
               <LinkBtn to="/abra-kadabra" label={'404'} />
-              <LinkBtn to="/login" label={this.props.id ? 'Выйти' : 'Войти'} />
+              {!this.props.id ? (
+                <LinkBtn
+                  to="/login"
+                  // label={this.props.id ? 'Выйти' : 'Войти'}
+                  label="Войти"
+                />
+              ) : (
+                <LinkBtn
+                  to=""
+                  // label={this.props.id ? 'Выйти' : 'Войти'}
+                  label="Выйти"
+                  logOut={this.props.logOut}
+                />
+              )}
             </div>
           </header>
 
@@ -57,33 +71,4 @@ class App extends Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(App))
-
-// const App = () => (
-//   <CssBaseline>
-//     <div>
-//       <header className="header">
-//         <div className="top-menu">
-//           <LinkBtn to="/" label={'Главная'} />
-//           <LinkBtn to="/profile" label={'Профиль'} />
-//           <LinkBtn to="/news" label={'Новости'} />
-//           <LinkBtn to="/abra-kadabra" label={'404'} />
-//           <LinkBtn to="/login" label={'Логин'} />
-//         </div>
-//       </header>
-
-//       <hr />
-//       <div className="content">
-//         <Switch>
-//           <Route exact path="/" component={Home} />
-//           <Route path="/news" component={NewsContainer} />
-//           <Route path="/login" component={LoginContainer} />
-//           <PrivateRoute path="/profile" component={ProfileContainer} />
-//           <Route component={NotFound} />
-//         </Switch>
-//       </div>
-//     </div>
-//   </CssBaseline>
-// )
-
-// export default App
+export default withRouter(connect(mapStateToProps, { logOut })(App))

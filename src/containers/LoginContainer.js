@@ -1,6 +1,6 @@
 //import React from 'react'
 import { connect } from 'react-redux'
-import { logIn } from '../reducers/session/actions'
+import { logIn, clearErrorMsg } from '../reducers/session/actions'
 import Login from '../components/Login'
 import { getId, getError, getIsFetching } from '../reducers/session/selectors'
 
@@ -10,4 +10,4 @@ const mapStateToProps = state => ({
   isFetching: getIsFetching(state),
 })
 
-export default connect(mapStateToProps, { logIn })(Login)
+export default connect(mapStateToProps, { logIn, clearErrorMsg })(Login)

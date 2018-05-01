@@ -27,17 +27,16 @@ export default (state = initialState, action) => {
         error: action.payload,
         isFetching: false,
       }
-    case types.SERVER_404:
+    case types.ERROR_MSG_CLEAR:
       return {
         ...state,
-        error: 'К сожалению, сервер не доступен',
+        error: null,
       }
-    // case types.LOG_OUT:
-    //   return {
-    //     ...state,
-    //     user: null,
-    //     errorMsg: '',
-    //   }
+    case types.LOG_OUT:
+      return {
+        ...state,
+        id: null,
+      }
 
     default:
       return state
