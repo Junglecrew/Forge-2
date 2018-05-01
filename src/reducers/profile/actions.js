@@ -16,7 +16,7 @@ export const profileError = payload => ({
 
 export const getProfile = id => (dispatch, getState) => {
   dispatch(profileStart())
-  fetch(`http://5ae32aeb34b5970014d2edd6.mockapi.io/user-info/2`)
+  fetch(`http://5ae32aeb34b5970014d2edd6.mockapi.io/user-info/${id}`)
     .then(response => response.json())
     .then(data => {
       if (data.status === '404') {
