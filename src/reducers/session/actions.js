@@ -1,6 +1,7 @@
-import { checkCredentials } from '../../helpers/session'
+// import { checkCredentials } from '../../helpers/session'
 // import { getUser } from './selectors'
 import * as types from './types'
+import { store } from '../../index.js'
 
 export const logInStart = () => ({
   type: types.LOG_IN_START,
@@ -21,36 +22,37 @@ export const server404 = payload => ({
   payload,
 })
 
-export const logIn = params => (dispatch, getState) => {
-  dispatch(logInStart(params))
-  if (!checkCredentials(params)) {
-    fetch('http://5ae32aeb34b5970014d2edd6.mockapi.io/validate-err', {
-      method: 'POST',
-    })
-      .then(response => response.json())
-      .then(data => dispatch(logInError(data)))
-  } else {
-    fetch('http://5ae32aeb34b5970014d2edd6.mockapi.io/validate-ok', {
-      method: 'POST',
-      body: {
-        email: `${params.email}`,
-        password: `${params.password}`,
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        data.status === 'ok'
-          ? dispatch(logInSuccess(data))
-          : dispatch(logInError(data))
-        // .catch(error => dispatch(logInError(error)))
-      })
+export const errorHandler = data => {
+  console.log(data)
+  var msg
+  if (data.message === 'wrong_email_or_password') {
+    msg = 'Неправильный логин или пароль'
   }
+  if (data.status === '503') {
+    msg = 'Сервер не доступен'
+  } else {
+    msg = data.message
+  }
+  store.dispatch(logInError(msg))
 }
 
-export const serverError = () => (dispatch, getState) => {
-  fetch('http://5ae32aeb34b5970014d2edd6.mockapi.io/wrongURL', {
+export const logIn = params => (dispatch, getState) => {
+  dispatch(logInStart(params))
+  fetch('https://mysterious-reef-29460.herokuapp.com/api/v1/validate', {
     method: 'POST',
-  }).then(response => response.json().then(data => dispatch(server404(data))))
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify({ email: params.email, password: params.password }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'ok') {
+        dispatch(logInSuccess(data.data))
+      } else {
+        errorHandler(data)
+      }
+    })
 }
 
 export function logOut() {

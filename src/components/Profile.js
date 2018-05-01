@@ -1,41 +1,64 @@
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import React, { Component } from 'react'
+import FA from 'react-fontawesome'
 import Preloader from '../components/Preloader'
 
 class Profile extends Component {
-  static PropTypes = {
-    id: PropTypes.string,
-    getProfile: PropTypes.func.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    user: PropTypes.object,
+  static propTypes = {
+    id: propTypes.number,
+    getProfile: propTypes.func.isRequired,
+    isFetching: propTypes.bool.isRequired,
+    user: propTypes.object,
+    socials: propTypes.array,
+    error: propTypes.string,
   }
   componentWillMount() {
     const { id, getProfile } = this.props
     getProfile(id)
-    console.log('will mount')
   }
 
   getBody() {
-    const { user } = this.props
-    const propfileContent = user === null ? <Preloader /> : this.makeProfile()
+    const { isFetching } = this.props
+    const propfileContent =
+      isFetching === true ? <Preloader /> : this.makeProfile()
     return propfileContent
   }
 
   makeProfile() {
-    const { user } = this.props
-    const languages = user.languages.map(item => <p>{item}</p>)
-    const socials = user.social.map(item => (
-      <div>
-        {item.label} {item.link}
-      </div>
-    ))
-    return (
-      <div>
-        <div>Город: {user.city}</div>
-        <div>Знание языков: {languages}</div>
-        <div>Cсылки: {socials}</div>
-      </div>
-    )
+    const { user, socials, error } = this.props
+    if (user === null) {
+      return <div>{error}</div>
+    } else {
+      const languages = user.languages.map((item, index) => (
+        <li key={index}>{item}</li>
+      ))
+      const socialsList = socials.map((item, index) => (
+        <li key={index} className="profile__socials">
+          <FA name={item.label} style={{ width: '16px' }} />
+          <a className="profile__socials-link" href={item.link} target="_blank">
+            {item.link}
+          </a>
+        </li>
+      ))
+      return (
+        <table className="profile">
+          <tbody>
+            <tr className="profile__item">
+              <td className="profile__item-title">Город: </td>
+              <td>{user.city}</td>
+            </tr>
+            <tr className="profile__item">
+              <td className="profile__item-title">Знание языков: </td>
+              <td>{languages}</td>
+            </tr>
+            <tr className="profile__item">
+              <td className="profile__item-title">Cсылки:</td>
+              <td>{socialsList}</td>
+            </tr>
+          </tbody>
+        </table>
+      )
+    }
   }
 
   render() {
@@ -44,20 +67,3 @@ class Profile extends Component {
 }
 
 export default Profile
-
-// const Profile = ({ id }) => {
-//   return (
-//     <React.Fragment>
-//       <h2>Профиль</h2>
-//       <p>Вас зовут: {id.name}</p>
-//     </React.Fragment>
-//   )
-// }
-
-// Profile.proptypes = {
-//   user: PropTypes.shape({
-//     name: PropTypes.string.isRequired,
-//   }).isRequired,
-// }
-
-// export default Profile

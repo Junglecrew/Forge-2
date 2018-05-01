@@ -8,6 +8,7 @@ import Button from 'material-ui/Button'
 import IconButton from 'material-ui/IconButton'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import Preloader from './Preloader';
 
 const styles = theme => ({
   container: {
@@ -52,10 +53,6 @@ class Login extends React.Component {
 
   handleClickShowPassword = () => {
     this.setState({ showPassword: !this.state.showPassword })
-  }
-
-  server404 = () => {
-    this.props.serverError()
   }
 
   render() {
@@ -124,10 +121,8 @@ class Login extends React.Component {
           >
             Войти
           </Button>
+          <div>{isFetching && <Preloader />}</div>
         </form>
-        <Button variant="raised" color="primary" onClick={this.server404}>
-          ошибка сервера
-        </Button>
       </div>
     )
   }
@@ -136,8 +131,7 @@ class Login extends React.Component {
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
   logIn: PropTypes.func.isRequired,
-  serverError: PropTypes.func.isRequired,
-  isAuth: PropTypes.string,
+  isAuth: PropTypes.number,
   error: PropTypes.string,
   isFetching: PropTypes.bool.isRequired,
 }

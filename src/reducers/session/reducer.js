@@ -19,12 +19,12 @@ export default (state = initialState, action) => {
         ...state,
         isFetching: false,
         error: null,
-        id: action.payload.userId,
+        id: action.payload.id,
       }
     case types.LOG_IN_ERROR:
       return {
         ...state,
-        error: action.payload.message,
+        error: action.payload,
         isFetching: false,
       }
     case types.SERVER_404:

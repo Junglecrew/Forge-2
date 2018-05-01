@@ -11,6 +11,7 @@ import ProfileContainer from './containers/ProfileContainer'
 import NewsContainer from './containers/NewsContainer'
 import NotFound from './components/NotFound'
 import './App.css'
+import './assets/fonts/fonts.css'
 import CssBaseline from 'material-ui/CssBaseline'
 
 import { Component } from 'react'
@@ -23,7 +24,7 @@ const mapStateToProps = state => {
 
 class App extends Component {
   static propTypes = {
-    id: propTypes.string,
+    id: propTypes.number,
   }
 
   render() {
