@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import Button from 'material-ui/Button'
 import { Link } from 'react-router-dom'
 
-const LinkBtn = ({ to, label, logOut }) => {
+const LinkBtn = ({ to, label, showModal }) => {
   return (
     <Link to={to}>
-      <Button variant="raised" color="primary">
-        <span onClick={logOut}>{label}</span>
+      <Button variant="raised" color="primary" onClick={showModal}>
+        <span>{label}</span>
       </Button>
     </Link>
   )

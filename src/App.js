@@ -10,7 +10,10 @@ import Home from './components/Home'
 import ProfileContainer from './containers/ProfileContainer'
 import NewsContainer from './containers/NewsContainer'
 import NotFound from './components/NotFound'
+import LogOutModal from './components/LogOutModal'
+import Zoom from 'material-ui/transitions/Zoom'
 import { logOut } from './reducers/session/actions'
+
 import './App.css'
 import './assets/fonts/fonts.css'
 import CssBaseline from 'material-ui/CssBaseline'
@@ -24,11 +27,23 @@ const mapStateToProps = state => {
 }
 
 class App extends Component {
+  state = {
+    modalVisible: false,
+  }
+
   static propTypes = {
     id: propTypes.number,
     logOut: propTypes.func,
+    location: propTypes.object,
   }
+
+  handleModal = () => {
+    this.setState({ modalVisible: !this.state.modalVisible })
+  }
+
   render() {
+    const { modalVisible } = this.state
+    const { location, logOut } = this.props
     return (
       <CssBaseline>
         <div>
@@ -39,22 +54,16 @@ class App extends Component {
               <LinkBtn to="/news" label={'Новости'} />
               <LinkBtn to="/abra-kadabra" label={'404'} />
               {!this.props.id ? (
-                <LinkBtn
-                  to="/login"
-                  // label={this.props.id ? 'Выйти' : 'Войти'}
-                  label="Войти"
-                />
+                <LinkBtn to="/login" label="Войти" />
               ) : (
                 <LinkBtn
-                  to=""
-                  // label={this.props.id ? 'Выйти' : 'Войти'}
+                  to={location.pathname}
                   label="Выйти"
-                  logOut={this.props.logOut}
+                  showModal={this.handleModal}
                 />
               )}
             </div>
           </header>
-
           <hr />
           <div className="content">
             <Switch>
@@ -64,7 +73,14 @@ class App extends Component {
               <PrivateRoute path="/profile" component={ProfileContainer} />
               <Route component={NotFound} />
             </Switch>
-          </div>
+          </div>{' '}
+          {modalVisible && (
+            <LogOutModal
+              logOut={logOut}
+              showModal={this.handleModal}
+              modalVisible={modalVisible}
+            />
+          )}
         </div>
       </CssBaseline>
     )

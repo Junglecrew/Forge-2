@@ -32,6 +32,16 @@ class Login extends React.Component {
     inputStyleError: true,
   }
 
+  static propTypes = {
+    history: PropTypes.object,
+    classes: PropTypes.object.isRequired,
+    logIn: PropTypes.func.isRequired,
+    clearErrorMsg: PropTypes.func.isRequired,
+    isAuth: PropTypes.number,
+    error: PropTypes.string,
+    isFetching: PropTypes.bool.isRequired,
+  }
+
   static getDerivedStateFromProps(nextProps, prevProps) {
     if (nextProps.error === prevProps.error) {
       return null
@@ -42,9 +52,9 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    const { history, clearErrorMsg } = this.props
+    const { history, clearErrorMsg, error } = this.props
     console.log(history.location.pathname)
-    if (history.location.pathname === '/login') return clearErrorMsg()
+    if (history.location.pathname === '/login' && error) return clearErrorMsg()
   }
 
   handleChange = e => {
@@ -141,16 +151,6 @@ class Login extends React.Component {
       </div>
     )
   }
-}
-
-Login.propTypes = {
-  history: PropTypes.object,
-  classes: PropTypes.object.isRequired,
-  logIn: PropTypes.func.isRequired,
-  clearErrorMsg: PropTypes.func.isRequired,
-  isAuth: PropTypes.number,
-  error: PropTypes.string,
-  isFetching: PropTypes.bool.isRequired,
 }
 
 export default withStyles(styles)(Login)
