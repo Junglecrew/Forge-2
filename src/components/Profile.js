@@ -25,7 +25,7 @@ class Profile extends Component {
   }
 
   getUrl = item => {
-    item.link.indexOf('htt') !== -1
+    item.link.indexOf('http') !== -1
       ? window.open(item.link)
       : window.open(`https://${item.link}`)
   }
