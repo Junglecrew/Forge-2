@@ -16,7 +16,7 @@ const LinkBtn = ({ to, label, showModal }) => {
 LinkBtn.propTypes = {
   to: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  logOut: PropTypes.func,
+  showModal: PropTypes.func,
 }
 
 export default LinkBtn
