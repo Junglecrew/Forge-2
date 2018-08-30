@@ -11,7 +11,7 @@ import ProfileContainer from './containers/ProfileContainer'
 import NewsContainer from './containers/NewsContainer'
 import NotFound from './components/NotFound'
 import LogOutModal from './components/LogOutModal'
-import Zoom from 'material-ui/transitions/Zoom'
+
 import { logOut } from './reducers/session/actions'
 
 import './App.css'
@@ -56,11 +56,7 @@ class App extends Component {
               {!this.props.id ? (
                 <LinkBtn to="/login" label="Войти" />
               ) : (
-                <LinkBtn
-                  to={location.pathname}
-                  label="Выйти"
-                  showModal={this.handleModal}
-                />
+                <LinkBtn to={location.pathname} label="Выйти" showModal={this.handleModal} />
               )}
             </div>
           </header>
@@ -74,13 +70,7 @@ class App extends Component {
               <Route component={NotFound} />
             </Switch>
           </div>{' '}
-          {modalVisible && (
-            <LogOutModal
-              logOut={logOut}
-              showModal={this.handleModal}
-              modalVisible={modalVisible}
-            />
-          )}
+          {modalVisible && <LogOutModal logOut={logOut} showModal={this.handleModal} modalVisible={modalVisible} />}
         </div>
       </CssBaseline>
     )

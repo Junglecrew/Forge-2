@@ -1,15 +1,10 @@
 {
-  "extends": [
-    "react-app",
-    "prettier"
-  ],
-  "plugins": [
-    "prettier"
-  ],
+  "extends": ["fbjs", "prettier"],
+  "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": "warn",
+    "prettier/prettier": "error",
     "react/no-unused-prop-types": 1,
-    "react/prop-types": 1,
-    "no-console": 0
-  }
+    "react/prop-types": 1
+  },
+  "parser": "babel-eslint"
 }

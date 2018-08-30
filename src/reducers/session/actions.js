@@ -21,9 +21,14 @@ export const clearErrorMsg = () => ({
   type: types.ERROR_MSG_CLEAR,
 })
 
+export const sessionSaga = params => ({
+  type: types.SESSION_SAGA,
+  params,
+})
+
 export const errorHandler = data => {
   console.log(data)
-  var msg
+  let msg
   console.log(data.message)
   if (data.message === 'wrong_email_or_password') {
     msg = 'Неправильный логин или пароль'
@@ -35,24 +40,24 @@ export const errorHandler = data => {
   store.dispatch(logInError(msg))
 }
 
-export const logIn = params => (dispatch, getState) => {
-  dispatch(logInStart(params))
-  fetch('https://mysterious-reef-29460.herokuapp.com/api/v1/validate', {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json',
-    },
-    body: JSON.stringify({ email: params.email, password: params.password }),
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'ok') {
-        dispatch(logInSuccess(data.data))
-      } else {
-        errorHandler(data)
-      }
-    })
-}
+// export const logIn = params => (dispatch, getState) => {
+//   dispatch(logInStart(params))
+//   fetch('https://mysterious-reef-29460.herokuapp.com/api/v1/validate', {
+//     method: 'POST',
+//     headers: {
+//       'Content-type': 'application/json',
+//     },
+//     body: JSON.stringify({ email: params.email, password: params.password }),
+//   })
+//     .then(response => response.json())
+//     .then(data => {
+//       if (data.status === 'ok') {
+//         dispatch(logInSuccess(data.data))
+//       } else {
+//         errorHandler(data)
+//       }
+//     })
+// }
 
 export function logOut() {
   return {

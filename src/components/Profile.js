@@ -6,28 +6,25 @@ import Preloader from '../components/Preloader'
 class Profile extends Component {
   static propTypes = {
     id: propTypes.number,
-    getProfile: propTypes.func.isRequired,
+    profileSaga: propTypes.func.isRequired,
     isFetching: propTypes.bool.isRequired,
     user: propTypes.object,
     socials: propTypes.array,
     error: propTypes.string,
   }
   componentWillMount() {
-    const { id, getProfile } = this.props
-    getProfile(id)
+    const { id, profileSaga } = this.props
+    profileSaga(id)
   }
 
   getBody() {
     const { isFetching } = this.props
-    const propfileContent =
-      isFetching === true ? <Preloader /> : this.makeProfile()
+    const propfileContent = isFetching === true ? <Preloader /> : this.makeProfile()
     return propfileContent
   }
 
   getUrl = item => {
-    item.link.indexOf('htt') !== -1
-      ? window.open(item.link)
-      : window.open(`https://${item.link}`)
+    item.link.indexOf('htt') !== -1 ? window.open(item.link) : window.open(`https://${item.link}`)
   }
 
   makeProfile() {
@@ -35,21 +32,11 @@ class Profile extends Component {
     if (user === null) {
       return <div>{error}</div>
     } else {
-      const languages = user.languages.map((item, index) => (
-        <li key={index}>{item}</li>
-      ))
+      const languages = user.languages.map((item, index) => <li key={index}>{item}</li>)
       const socialsList = socials.map((item, index) => (
         <li key={index} className="profile__socials-item">
-          <a
-            className="profile__socials-link"
-            onClick={() => this.getUrl(item)}
-            target="_blank"
-          >
-            {item.label === 'web' ? (
-              <FA name="globe" size="2x" />
-            ) : (
-              <FA name={item.label} size="2x" />
-            )}
+          <a className="profile__socials-link" onClick={() => this.getUrl(item)} target="_blank">
+            {item.label === 'web' ? <FA name="globe" size="2x" /> : <FA name={item.label} size="2x" />}
           </a>
         </li>
       ))

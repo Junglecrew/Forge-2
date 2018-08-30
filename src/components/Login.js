@@ -35,7 +35,7 @@ class Login extends React.Component {
   static propTypes = {
     history: PropTypes.object,
     classes: PropTypes.object.isRequired,
-    logIn: PropTypes.func.isRequired,
+    sessionSaga: PropTypes.func.isRequired,
     clearErrorMsg: PropTypes.func.isRequired,
     isAuth: PropTypes.number,
     error: PropTypes.string,
@@ -73,7 +73,7 @@ class Login extends React.Component {
   handleSubmit = e => {
     e.preventDefault()
     const { email, password } = this.state
-    this.props.logIn({ email, password })
+    this.props.sessionSaga({ email, password })
   }
 
   handleClickShowPassword = () => {
@@ -82,13 +82,7 @@ class Login extends React.Component {
 
   render() {
     const { classes, isAuth, error, isFetching } = this.props
-    const {
-      email,
-      password,
-      disabled,
-      inputStyleError,
-      showPassword,
-    } = this.state
+    const { email, password, disabled, inputStyleError, showPassword } = this.state
 
     if (isAuth) {
       return <Redirect to={'/profile'} />
@@ -106,9 +100,7 @@ class Login extends React.Component {
               value={email}
               onChange={this.handleChange}
               onKeyPress={this.handleChange}
-              error={
-                error === 'wrong_email_or_password' ? inputStyleError : false
-              }
+              error={error === 'wrong_email_or_password' ? inputStyleError : false}
             />
           </FormControl>
           <FormControl className={classes.formControl}>
@@ -119,31 +111,17 @@ class Login extends React.Component {
               value={password}
               onChange={this.handleChange}
               onKeyPress={this.handleChange}
-              error={
-                error === 'wrong_email_or_password' ? inputStyleError : false
-              }
+              error={error === 'wrong_email_or_password' ? inputStyleError : false}
               endAdornment={
                 <InputAdornment position="end">
-                  <IconButton
-                    aria-label="Toggle password visibility"
-                    onClick={this.handleClickShowPassword}
-                  >
-                    {this.state.showPassword ? (
-                      <VisibilityOff />
-                    ) : (
-                      <Visibility />
-                    )}
+                  <IconButton aria-label="Toggle password visibility" onClick={this.handleClickShowPassword}>
+                    {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               }
             />
           </FormControl>
-          <Button
-            type="submit"
-            variant="raised"
-            color="primary"
-            disabled={isFetching === true ? disabled : false}
-          >
+          <Button type="submit" variant="raised" color="primary" disabled={isFetching === true ? disabled : false}>
             Войти
           </Button>
           <div>{isFetching && <Preloader />}</div>

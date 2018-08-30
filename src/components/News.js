@@ -6,12 +6,12 @@ class News extends Component {
   static propTypes = {
     news: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    getNewsFromServer: PropTypes.func,
+    newsSaga: PropTypes.func,
   }
 
   componentDidMount() {
-    const { getNewsFromServer } = this.props
-    getNewsFromServer()
+    const { newsSaga } = this.props
+    newsSaga()
   }
 
   getBody() {
@@ -37,9 +37,7 @@ class News extends Component {
     return (
       <div>
         {this.getBody()}
-        {!isFetching && (
-          <div className="news-total">Всего новостей: {news.length}</div>
-        )}
+        {!isFetching && <div className="news-total">Всего новостей: {news.length}</div>}
       </div>
     )
   }
