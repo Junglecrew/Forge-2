@@ -1,7 +1,6 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
 import { profileStart, profileSuccess, profileError } from './actions'
 import * as types from './types'
-import ActionAccountBalanceWallet from 'material-ui/SvgIcon'
 
 function* getProfileWorker(action) {
   const { id } = action
@@ -20,7 +19,6 @@ function* getProfileWorker(action) {
   } catch (error) {
     yield put(profileError(error))
   }
-  ActionAccountBalanceWallet
 }
 
 function* getProfileWatcher() {

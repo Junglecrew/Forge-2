@@ -1,7 +1,6 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
 import * as types from './types'
 import { logInStart, logInSuccess, logInError, errorHandler } from './actions'
-logInStart
 
 function* sessionSagaWorker(action) {
   const { params } = action
